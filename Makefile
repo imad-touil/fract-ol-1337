@@ -1,6 +1,6 @@
 NAME = fractol
 CC = cc
-# CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra
 LMX_F = -lmlx -framework OpenGL -framework AppKit
 RM = rm -rf
 
@@ -15,11 +15,11 @@ OBJS = $(SRC:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(LMX_F) $(OBJS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(LMX_F) $(OBJS) -o $(NAME)
 
 
 %.o: %.c fractol.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 
 clean:
