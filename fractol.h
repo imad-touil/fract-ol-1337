@@ -6,7 +6,7 @@
 /*   By: imatouil <imatouil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 16:41:21 by imatouil          #+#    #+#             */
-/*   Updated: 2025/02/23 16:52:19 by imatouil         ###   ########.fr       */
+/*   Updated: 2025/03/08 02:45:51 by imatouil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <math.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
 
 # define WIDTH 800
 # define HEIGHT 800
@@ -26,18 +27,26 @@ or\n./fractol <Julia> <value1> <value2>\n"
 
 typedef struct s_data
 {
-	void	*mlx;
-	void	*win;
 	void	*img;
 	char	*addr;
 	int		bpp;
 	int		l_len;
 	int		endian;
 	char	*title;
-}			t_data;
+}			t_img;
+
+typedef struct s_fractol
+{
+	void	*mlx;
+	void	*mlx_wind;
+	char	*title;
+	t_img	img;
+
+	// Hooks // TODO
+}			t_fractol;
 
 void	ft_putendl_fd(const char *str, int fd);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-void	fractol_init(t_data *f);
+void	fractol_init(t_fractol *f);
 
 #endif
