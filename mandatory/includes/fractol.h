@@ -5,59 +5,71 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: imatouil <imatouil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/09 03:33:37 by imatouil          #+#    #+#             */
-/*   Updated: 2025/03/09 03:38:20 by imatouil         ###   ########.fr       */
+/*   Created: 2025/03/11 00:28:27 by imatouil          #+#    #+#             */
+/*   Updated: 2025/03/19 18:29:22 by imatouil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 
-# include <mlx.h>
-# include <math.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <string.h>
+# include <mlx.h>
+# include <math.h>
 
 # define WIDTH 800
 # define HEIGHT 800
 # define MAX_ITER 100
-# define ZOOM 1.0
-# define ERROR_MSSG "Invalid fractal type. Use:\
- mandelbrot, julia, burning_ship\n"
+# define ZOOM_FACTOR 1.1
 
-typedef struct s_complex
+# define MLX_FAILED "MiniLibX initialization failed\n"
+# define WIN_FAILED "Windows creation failed\n"
+# define IMG_FAILED "image initializeed failed\n"
+# define USAGE_MSGE "Usage: ./fractol Mandelbrot\n\
+./fractol Julia [width] [height]\n"
+
+typedef struct s_data
 {
-	double	real;
-	double	imag;
-}			t_complex;
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		l_len;	
+	int		endian;
+}			t_data;
 
-typedef struct s_fractal
+typedef struct s_fract
 {
-	void		*mlx;
-	void		*win;
-	void		*img;
-	char		*addr;
-	int			bpp;
-	int			line_len;
-	int			endian;
-	double		zoom;
-	double		offset_x;
-	double		offset_y;
-	int			max_iter;
-	int			fractal_type;
-	t_complex	julia_c;
-}				t_fractal;
+	void	*mlx;
+	void	*win;
+	t_data	img;
+	double	min_r;
+	double	max_r;
+	double	min_i;
+	double	max_i;
+	int		max_iter;
+	double	zoom;
+	double	offset_x;
+	double	offset_y;
+	char	*f_type;
+	double	c_real;
+	double	c_imaginary;
+}			t_fract;
 
-// Function prototypes
-int		mandelbrot(t_complex c, int max_iter);
-int		julia(t_complex z, t_complex c, int max_iter);
-int		burning_ship(t_complex c, int max_iter);
-void	draw_fractal(t_fractal *f);
-void	init_fractal(t_fractal *f, char *fractal_type);
-int		handle_key(int keycode, t_fractal *f);
-int		handle_mouse(int button, int x, int y, t_fractal *f);
-void	put_pixel(t_fractal *f, int x, int y, int color);
-int		create_trgb(int t, int r, int g, int b);
+void	ft_putstr(char *str);
+void	print_error_exit(char *msg, int key, t_fract *f);
+void	init_fractol(t_fract *f);
+int		ft_strcmp(const char *s1, const char *s2);
+void	render_mandel(t_fract *f);
+int		mandel(double real, double imaginary, int max_iter);
+int		get_color(int iteration, int max_iter);
+void	put_pixel(t_data *img, int x, int y, int color);
+void	render_julia(t_fract *f);
+int		julia(t_fract *f, double real, double imaginary);
+double	ft_atof(char *str);
+
+int		keys_handler(int key_code, t_fract *f);
+int		mouse_scroll(int button, int x, int y, t_fract *f);
+int		close_window(t_fract *f);
 
 #endif
